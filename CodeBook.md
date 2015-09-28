@@ -33,7 +33,7 @@ test_labels <- read.table("UCI HAR Dataset/test/y_test.txt")
 test_subset <- select(test_set, feature_filtered$featureid)
 names(test_subset) <- feature_filtered$feature
 
-#combine extra variables
+#Combine extra variables
 test_data <- mutate(test_subset, label = as.integer(test_labels$V1))
 test_data <- mutate(test_data, subject = as.integer(test_subject$V1))
 train_data <- mutate(train_subset, label = as.integer(train_labels$V1))
@@ -43,7 +43,7 @@ train_data <- mutate(train_data, subject = as.integer(train_subject$V1))
 complete_data <- rbind(train_data, test_data)
 complete_data <- merge(complete_data, activity_labels)
 
-#6) From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
+#Create Tidy Dataset
 complete_data_grouped <- group_by(complete_data, label_description, subject)
 complete_data_grouped_summarised <- summarise_each(complete_data_grouped, funs(mean))
 write.table(complete_data_grouped_summarised, "CompleteTidyData.txt", row.names = FALSE)
